@@ -1,3 +1,3 @@
 # DOTS-MovingDummy
 
-Unity 2022.2.18
+Unity 2022.3.0 LTS
