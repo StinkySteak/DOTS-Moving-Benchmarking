@@ -16,10 +16,12 @@ public class RandomMovingCharacterSpawningPropertyBaker : Baker<RandomMovingChar
 
     public override void Bake(RandomMovingCharacterSpawningPropertyAuthoring authoring)
     {
+        Entity characterPrefab = GetEntity(authoring.MovingCharacterPrefab, TransformUsageFlags.Dynamic);
+
         RandomMovingCharacterSpawningProperty property = new()
         {
             SpawnAmount = authoring.SpawnAmount,
-            MovingCharacterPrefab = GetEntity(authoring.MovingCharacterPrefab, TransformUsageFlags.Dynamic),
+            MovingCharacterPrefab = characterPrefab,
             SpawnPosition = authoring.SpawnPosition,
             SpawnRadius = authoring.SpawnRadius,
         };

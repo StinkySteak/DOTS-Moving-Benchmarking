@@ -3,6 +3,10 @@ using Unity.Mathematics;
 
 public partial class RandomPathfindingSystem : SystemBase
 {
+    protected override void OnStartRunning()
+    {
+
+    }
 
     protected override void OnUpdate()
     {
@@ -17,20 +21,23 @@ public partial class RandomPathfindingSystem : SystemBase
 
             if (isDistanceReached)
             {
-                float3 newDestination = GetRandomPosition(random);
+                float3 newDestination = GetRandomPosition(random, property);
 
                 aspect.SetNewDestination(newDestination);
             }
         }
     }
 
-    private float3 GetRandomPosition(RefRW<GlobalRandom> random)
+    private float3 GetRandomPosition(RefRW<GlobalRandom> random, RandomPathfindingProperty property)
     {
+        float x = random.ValueRW.Value.NextFloat(-1f, 1f) * property.MaxRadius;
+        float z = random.ValueRW.Value.NextFloat(-1f, 1f) * property.MaxRadius;
+
         return new float3()
         {
-            x = random.ValueRW.Value.NextFloat(),
+            x = x,
             y = 0,
-            z = random.ValueRW.Value.NextFloat(),
+            z = z,
         };
     }
 }

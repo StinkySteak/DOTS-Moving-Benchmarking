@@ -7,25 +7,33 @@ public partial class RandomMovingCharacterSpawnerSystem : SystemBase
 
     protected override void OnStartRunning()
     {
+        SpawnCharacters();
+    }
+
+    private void SpawnCharacters()
+    {
         RandomMovingCharacterSpawningProperty property = SystemAPI.GetSingleton<RandomMovingCharacterSpawningProperty>();
-        RefRW<GlobalRandom> random = SystemAPI.GetSingletonRW<GlobalRandom>();
 
         for (int i = 0; i < property.SpawnAmount; i++)
         {
             Entity entity = EntityManager.Instantiate(property.MovingCharacterPrefab);
 
+            EntityManager.AddComponent<PathfindingDestination>(entity);
+
             RandomPathfindingTransform aspect = EntityManager.GetAspect<RandomPathfindingTransform>(entity);
 
-            float3 newDestination = GetRandomPosition(random, property);
+            float3 newDestination = GetRandomPosition(property);
 
             aspect.SetNewDestination(newDestination);
         }
     }
 
-    private float3 GetRandomPosition(RefRW<GlobalRandom> random, RandomMovingCharacterSpawningProperty spawningProperty)
+    private float3 GetRandomPosition(RandomMovingCharacterSpawningProperty spawningProperty)
     {
-        float x = GetSpawnPositionAxis(random, spawningProperty.SpawnRadius) + spawningProperty.SpawnPosition.x;
-        float z = GetSpawnPositionAxis(random, spawningProperty.SpawnRadius) + spawningProperty.SpawnPosition.z;
+        RefRW<GlobalRandom> random = SystemAPI.GetSingletonRW<GlobalRandom>();
+
+        float x = random.ValueRW.Value.NextFloat(-1f, 1f) * spawningProperty.SpawnRadius;
+        float z = random.ValueRW.Value.NextFloat(-1f, 1f) * spawningProperty.SpawnRadius;
 
         return new float3()
         {
@@ -34,7 +42,4 @@ public partial class RandomMovingCharacterSpawnerSystem : SystemBase
             z = z,
         };
     }
-
-    private float GetSpawnPositionAxis(RefRW<GlobalRandom> random, float spawnRadius)
-        => random.ValueRW.Value.NextFloat(-1f, 1f) * spawnRadius;
 }
