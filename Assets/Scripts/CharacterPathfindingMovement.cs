@@ -1,10 +1,12 @@
+using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
-using UnityEngine;
 
-public partial class CharacterPathfindingMovement : SystemBase
+[BurstCompile]
+public partial struct CharacterPathfindingMovement : ISystem
 {
-    protected override void OnUpdate()
+    [BurstCompile]
+    public  void OnUpdate(ref SystemState state)
     {
         GlobalCharacterMovementSpeed movementSpeed = SystemAPI.GetSingleton<GlobalCharacterMovementSpeed>();
 
@@ -18,4 +20,10 @@ public partial class CharacterPathfindingMovement : SystemBase
             aspect.Movement.ValueRW.Velocity = velocity;
         }
     }
+
+    [BurstCompile]
+    public void OnCreate(ref SystemState state) { }
+
+    [BurstCompile]
+    public void OnDestroy(ref SystemState state) { }
 }

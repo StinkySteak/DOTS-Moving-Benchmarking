@@ -1,10 +1,17 @@
+using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
 
+[BurstCompile]
 public partial struct RandomPathfindingSystem : ISystem
 {
+    [BurstCompile]
     public void OnCreate(ref SystemState state) { }
+
+    [BurstCompile]
     public void OnDestroy(ref SystemState state) { }
+
+    [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
         RefRW<GlobalRandom> random = SystemAPI.GetSingletonRW<GlobalRandom>();

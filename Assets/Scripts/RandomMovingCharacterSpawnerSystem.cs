@@ -1,10 +1,15 @@
+using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
 
+[BurstCompile]
 public partial struct RandomMovingCharacterSpawnerSystem : ISystem, ISystemStartStop
 {
+    [BurstCompile]
     public void OnCreate(ref SystemState state) { }
+    [BurstCompile]
     public void OnUpdate(ref SystemState state) { }
+    [BurstCompile]
     public void OnDestroy(ref SystemState state) { }
     public void OnStartRunning(ref SystemState state)
     {
