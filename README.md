@@ -6,9 +6,13 @@ Main Thread (SystemBase) vs ISystem + Burst Compile + Job
 
 ## Details
 Unity Version: 2022.3.0 DX11
+
 URP Forward+
+
 20,000 Entities
+
 No Shadow
+
 GPU Instancing
 
 Currently the project hasn't support running on build yet
