@@ -6,19 +6,16 @@ using Unity.Mathematics;
 public partial struct CharacterPathfindingMovement : ISystem
 {
     [BurstCompile]
-    public  void OnUpdate(ref SystemState state)
+    public void OnUpdate(ref SystemState state)
     {
         GlobalCharacterMovementSpeed movementSpeed = SystemAPI.GetSingleton<GlobalCharacterMovementSpeed>();
 
-        foreach (PathfindingMovementAspect aspect in SystemAPI.Query<PathfindingMovementAspect>())
+        SetVelocityJob job = new()
         {
-            float3 moveDirection = aspect.PathfindingDestination.ValueRO.Position - aspect.Transform.ValueRO.Position;
+            globalMovementSpeed = movementSpeed,
+        };
 
-            moveDirection = math.normalize(moveDirection);
-            float3 velocity = movementSpeed.Speed * moveDirection;
-
-            aspect.Movement.ValueRW.Velocity = velocity;
-        }
+        job.ScheduleParallel();
     }
 
     [BurstCompile]
@@ -26,4 +23,21 @@ public partial struct CharacterPathfindingMovement : ISystem
 
     [BurstCompile]
     public void OnDestroy(ref SystemState state) { }
+}
+
+[BurstCompile]
+public partial struct SetVelocityJob : IJobEntity
+{
+    public GlobalCharacterMovementSpeed globalMovementSpeed;
+
+    [BurstCompile]
+    public void Execute(PathfindingMovementAspect aspect)
+    {
+        float3 moveDirection = aspect.PathfindingDestination.ValueRO.Position - aspect.Transform.ValueRO.Position;
+
+        moveDirection = math.normalize(moveDirection);
+        float3 velocity = globalMovementSpeed.Speed * moveDirection;
+
+        aspect.Movement.ValueRW.Velocity = velocity;
+    }
 }

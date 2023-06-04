@@ -13,14 +13,23 @@ public partial struct CharacterMovementSystem : ISystem
     {
         float deltaTime = SystemAPI.Time.DeltaTime;
 
-        foreach (MovingTransformAspect aspect in SystemAPI.Query<MovingTransformAspect>())
+        MoveJob job = new()
         {
-            Move(aspect, deltaTime);
-        }
-    }
+            DeltaTime = deltaTime,
+        };
 
-    private void Move(MovingTransformAspect aspect, float deltaTime)
+        job.ScheduleParallel();
+    }
+}
+
+[BurstCompile]
+public partial struct MoveJob : IJobEntity
+{
+    public float DeltaTime;
+
+    [BurstCompile]
+    public void Execute(MovingTransformAspect aspect)
     {
-        aspect.Transform.ValueRW.Position += aspect.Movement.ValueRO.Velocity * deltaTime;
+        aspect.Transform.ValueRW.Position += aspect.Movement.ValueRO.Velocity * DeltaTime;
     }
 }
