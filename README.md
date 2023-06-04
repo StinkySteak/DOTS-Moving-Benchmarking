@@ -23,7 +23,7 @@ Currently the project hasn't support running on build yet
 ## Benchmark
 Windows 10 Build 19045
 
-Dell G15 5515 x64, i7-11800H @2.30 GHz 32GB Ram 3200Mhz Dual Channel, RTX 3050M, Nvidia 531.41
+Dell G15 5515 x64, i7-11800H (8c/16t) @2.30 GHz 32GB Ram 3200Mhz Dual Channel, RTX 3050M, Nvidia 531.41
 
 #### Main Thread (SystemBase)
 CPU Latency: ~7ms (142 FPS)
