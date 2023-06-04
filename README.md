@@ -10,25 +10,28 @@ Unity Version: 2022.3.0 DX11
 Currently the project hasn't support running on build yet
 
 ## Project Preview
-![](https://github.com/StinkySteak/DOTS-MovingDummy/Resource/ProjectPreview.gif)
+![](https://github.com/StinkySteak/DOTS-MovingDummy/blob/master/Resource/ProjectPreview.gif)
 
 ## Benchmark
 
 #### Main Thread (SystemBase)
-CPU Latency: 0ms (0 FPS)
-![](https://github.com/StinkySteak/DOTS-MovingDummy/Resource/ProjectPreview.gif)
+CPU Latency: ~7ms (142 FPS)
+![](https://github.com/StinkySteak/DOTS-MovingDummy/blob/master/Resource/MainThread.gif)
 
 #### Worker Thread (ISystem + Burst + Job)
-CPU Latency: 0ms (0 FPS)
-![](https://github.com/StinkySteak/DOTS-MovingDummy/Resource/ProjectPreview.gif)
+CPU Latency: ~1.35ms (740 FPS)
+![](https://github.com/StinkySteak/DOTS-MovingDummy/blob/master/Resource/WorkerThread.gif)
 
 ## Project Code Structure
 
 ### Systems
 
 `CharacterMovementSystem`: Process Character Movement
+
 `RandomPathfindingSystem`: Handles Checking remaining destination distance & Set a new random position
+
 `RandomMovingCharacterSpawnerSystem`: Only active once, Spawn the Character at startup & assign random destination
+
 `CharacterPathfindingMovement`: Manage Character `Movement` velocity based on destination direction 
 
 ### Components
@@ -43,4 +46,5 @@ CPU Latency: 0ms (0 FPS)
 
 #### Basic Components
 `Movement`: Store Velocity
+
 `PathfindingDestination`: Store Destination position
