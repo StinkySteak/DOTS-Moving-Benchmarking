@@ -1,14 +1,11 @@
 using Unity.Entities;
 using Unity.Mathematics;
 
-public partial class RandomPathfindingSystem : SystemBase
+public partial struct RandomPathfindingSystem : ISystem
 {
-    protected override void OnStartRunning()
-    {
-
-    }
-
-    protected override void OnUpdate()
+    public void OnCreate(ref SystemState state) { }
+    public void OnDestroy(ref SystemState state) { }
+    public void OnUpdate(ref SystemState state)
     {
         RefRW<GlobalRandom> random = SystemAPI.GetSingletonRW<GlobalRandom>();
         RandomPathfindingProperty property = SystemAPI.GetSingleton<RandomPathfindingProperty>();

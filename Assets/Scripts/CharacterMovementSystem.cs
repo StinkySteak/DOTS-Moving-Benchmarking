@@ -1,10 +1,12 @@
 using Unity.Entities;
 
-public partial class CharacterMovementSystem : SystemBase
+public partial struct CharacterMovementSystem : ISystem
 {
-    protected override void OnUpdate()
+    public void OnCreate(ref SystemState state) { }
+    public void OnDestroy(ref SystemState state) { }
+    public void OnUpdate(ref SystemState state)
     {
-        float deltaTime = SystemAPI.Time.DeltaTime;
+        float deltaTime = state.World.Time.DeltaTime;
 
         foreach (MovingTransformAspect aspect in SystemAPI.Query<MovingTransformAspect>())
         {

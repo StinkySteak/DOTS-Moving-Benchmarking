@@ -1,26 +1,27 @@
 using Unity.Entities;
 using Unity.Mathematics;
 
-public partial class RandomMovingCharacterSpawnerSystem : SystemBase
+public partial struct RandomMovingCharacterSpawnerSystem : ISystem, ISystemStartStop
 {
-    protected override void OnUpdate() { }
-
-    protected override void OnStartRunning()
+    public void OnCreate(ref SystemState state) { }
+    public void OnUpdate(ref SystemState state) { }
+    public void OnDestroy(ref SystemState state) { }
+    public void OnStartRunning(ref SystemState state)
     {
-        SpawnCharacters();
+        SpawnCharacters(state.EntityManager);
     }
 
-    private void SpawnCharacters()
+    private void SpawnCharacters(EntityManager em)
     {
         RandomMovingCharacterSpawningProperty property = SystemAPI.GetSingleton<RandomMovingCharacterSpawningProperty>();
 
         for (int i = 0; i < property.SpawnAmount; i++)
         {
-            Entity entity = EntityManager.Instantiate(property.MovingCharacterPrefab);
+            Entity entity = em.Instantiate(property.MovingCharacterPrefab);
 
-            EntityManager.AddComponent<PathfindingDestination>(entity);
+            em.AddComponent<PathfindingDestination>(entity);
 
-            RandomPathfindingTransform aspect = EntityManager.GetAspect<RandomPathfindingTransform>(entity);
+            RandomPathfindingTransform aspect = em.GetAspect<RandomPathfindingTransform>(entity);
 
             float3 newDestination = GetRandomPosition(property);
 
@@ -41,5 +42,9 @@ public partial class RandomMovingCharacterSpawnerSystem : SystemBase
             y = 0,
             z = z,
         };
+    }
+
+    public void OnStopRunning(ref SystemState state)
+    {
     }
 }
