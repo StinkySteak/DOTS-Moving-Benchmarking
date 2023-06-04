@@ -17,19 +17,19 @@ public partial struct RandomPathfindingSystem : ISystem
         RefRW<GlobalRandom> random = SystemAPI.GetSingletonRW<GlobalRandom>();
         RandomPathfindingProperty property = SystemAPI.GetSingleton<RandomPathfindingProperty>();
 
-        //foreach (RandomPathfindingTransform aspect in SystemAPI.Query<RandomPathfindingTransform>())
-        //{
-        //    float distance = math.distance(aspect.EntityPosition, aspect.EntityDestination);
+        foreach (RandomPathfindingTransform aspect in SystemAPI.Query<RandomPathfindingTransform>())
+        {
+            float distance = math.distance(aspect.EntityPosition, aspect.EntityDestination);
 
-        //    bool isDistanceReached = distance <= property.MinReachDistance;
+            bool isDistanceReached = distance <= property.MinReachDistance;
 
-        //    if (isDistanceReached)
-        //    {
-        //        float3 newDestination = GetRandomPosition(random, property);
+            if (isDistanceReached)
+            {
+                float3 newDestination = GetRandomPosition(random, property);
 
-        //        aspect.SetNewDestination(newDestination);
-        //    }
-        //}
+                aspect.SetNewDestination(newDestination);
+            }
+        }
     }
 
     private float3 GetRandomPosition(RefRW<GlobalRandom> random, RandomPathfindingProperty property)
